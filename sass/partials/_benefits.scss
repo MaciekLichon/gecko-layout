@@ -1,0 +1,268 @@
+.benefits {
+  background-color: $clr-bg-light;
+  color: $clr-dark;
+  overflow: hidden;
+
+  .benefits__content {
+    display: flex;
+  }
+
+  .benefits__content-left {
+    flex: 1;
+    display: flex;
+    align-items: center;
+  }
+
+  /* ---------------- CIRCLES STYLES ---------------- */
+  .benefits__content-right {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    
+    .benefits__circle-foreground { // circles container
+      position: relative;
+      height: 528px;
+      width: 528px;
+      border-radius: 50%;
+
+
+      .circle { // single circle basic styles, the rest is included further below, in the sass for loop
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+        background: transparent;
+        border-radius: 50%;
+        animation: rotation linear infinite;
+        
+        .point { // points and pop up styles
+          position: absolute;
+          width: 18px;
+          height: 18px;
+          background-color: $clr-light;
+          border: 2px solid $clr-accent-blue;
+          border-radius: 50%;
+          box-shadow: 0px 0px 20px rgba(255, 255, 255, 0.8);
+          cursor: pointer;
+
+          .point-title, .point-description {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            padding: 12px;
+            background-color: $clr-light;
+            border-radius: 8px;
+            border: 1px solid $clr-gray-light;
+            font-weight: $fw-bold;
+            white-space: nowrap;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.2s;
+            animation: reverseRotation linear infinite;
+          }
+
+          .point-description {
+            display: flex;
+            flex-direction: column;
+            width: 225px;
+            text-align: center;
+            padding: 20px 12px;
+            white-space: normal;
+            animation: reverseRotation linear infinite;
+
+            .point-description-header, .point-description-text {
+              overflow-wrap: normal;
+            }
+
+            .point-description-text {
+              font-size: $fs-accent-smaller;
+              font-weight: $fw-light;
+              color: $clr-gray-dark;
+            }
+          }
+        }
+
+        .point:hover .point-description {
+          opacity: 1;
+          visibility: visible;
+        }
+      }
+      .circle.two .point { top: 50%; right: -9px; transform: translateY(-50%); }
+      .circle.three .point { left: 50%; top: -9px; transform: translateX(-50%); }
+      .circle.four .point { top: 50%; left: -9px; transform: translateY(-50%); }
+      .circle.five .point { left: 50%; bottom: -9px; transform: translateX(-50%); }
+      .circle.six .point { top: 50%; right: -9px; transform: translateY(-50%); }
+
+      
+      @for $i from 0 through 5 { // for loop mentioned above, draws circles of different sizes and sets matching animation times for all animations
+        .circle:nth-child(#{$i+1}) {
+          width: calc(48px * #{$i} + 48px * #{$i+1});
+          height: calc(48px * #{$i} + 48px * #{$i+1});
+          z-index: calc(6 - #{$i});
+          animation-duration: calc(5s * #{$i});
+
+          .point .point-title, .point .point-description {
+            animation-duration: calc(5s * #{$i});
+          }
+        }
+      }
+
+
+      @keyframes rotation { // basic rotation, used for points
+        100% {
+          transform: translate(-50%, -50%) rotate(360deg);
+        }
+      }
+
+      @keyframes reverseRotation { // reverse rotation, used for popups to keep them steady
+        100% {
+          transform: translate(-50%, -50%) rotate(-360deg);
+        }
+      }
+    }
+
+    // hover effects
+    .benefits__circle-foreground:hover .circle {
+      animation-play-state: paused;
+    }
+
+    .benefits__circle-foreground:hover .circle .point .point-title {
+      cursor: pointer;
+      animation-play-state: paused;
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .benefits__circle-foreground:hover .circle .point .point-description {
+      cursor: pointer;
+      animation-play-state: paused;
+    }
+
+
+    // circles above are transparent to remove the rbga opacity of circles affect popups
+    // that why, there's a separate set of circles created below (with lower z-index) to generate background
+    .benefits__circle-background {
+      position: absolute;
+      left: 0;
+      top: 0;
+      height: 100%;
+      width: 100%;
+      border-radius: 50%;
+      z-index: 0;
+
+      .bg-circle {
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+        background-color: $clr-accent-blue;
+        border-radius: 50%;
+      }
+
+      @for $i from 0 through 5 { 
+        .bg-circle:nth-child(#{$i+1}) {
+          width: calc(48px * #{$i} + 48px * #{$i+1});
+          height: calc(48px * #{$i} + 48px * #{$i+1});
+          background-color: rgba(23, 128, 255, calc(1 - 0.2 * #{$i}));
+          z-index: calc(5 - #{$i});
+        }
+      }
+      .bg-circle.one { background-color: $clr-accent; border: 2px solid $clr-light; }
+      .bg-circle.six { background-color: rgba(23, 128, 255, 0.1); }
+    }
+  }
+}
+
+
+@media (max-width: 750px) {
+  .benefits {
+    .benefits__content {
+      flex-direction: column;
+    }
+  }
+}
+
+@media (max-width: 650px) {
+  .benefits {
+    .benefits__content {
+      .benefits__content-right {
+        .benefits__circle-foreground {
+          @for $i from 0 through 5 { // for loop mentioned above, draws circles of different sizes and sets matching animation times for all animations
+            .circle:nth-child(#{$i+1}) {
+              width: calc(40px * #{$i} + 40px * #{$i+1});
+              height: calc(40px * #{$i} + 40px * #{$i+1});
+            }
+          }
+          .circle {
+            .point {
+              .point-description, .point-title {
+                bottom: 5px;
+              }
+            }
+          }
+        }
+        .benefits__circle-background {
+          @for $i from 0 through 5 { 
+            .bg-circle:nth-child(#{$i+1}) {
+              width: calc(40px * #{$i} + 40px * #{$i+1});
+              height: calc(40px * #{$i} + 40px * #{$i+1});
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: 470px) {
+  .benefits {
+    .benefits__content {
+      .benefits__content-right {
+        .benefits__circle-foreground {
+          @for $i from 0 through 5 { // for loop mentioned above, draws circles of different sizes and sets matching animation times for all animations
+            .circle:nth-child(#{$i+1}) {
+              width: calc(30px * #{$i} + 30px * #{$i+1});
+              height: calc(30px * #{$i} + 30px * #{$i+1});
+            }
+          }
+        }
+        .benefits__circle-background {
+          @for $i from 0 through 5 { 
+            .bg-circle:nth-child(#{$i+1}) {
+              width: calc(30px * #{$i} + 30px * #{$i+1});
+              height: calc(30px * #{$i} + 30px * #{$i+1});
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: 350px) {
+  .benefits {
+    .benefits__content {
+      .benefits__content-right {
+        .benefits__circle-foreground {
+          @for $i from 0 through 5 { // for loop mentioned above, draws circles of different sizes and sets matching animation times for all animations
+            .circle:nth-child(#{$i+1}) {
+              width: calc(28px * #{$i} + 28px * #{$i+1});
+              height: calc(28px * #{$i} + 28px * #{$i+1});
+            }
+          }
+        }
+        .benefits__circle-background {
+          @for $i from 0 through 5 { 
+            .bg-circle:nth-child(#{$i+1}) {
+              width: calc(28px * #{$i} + 28px * #{$i+1});
+              height: calc(28px * #{$i} + 28px * #{$i+1});
+            }
+          }
+        }
+      }
+    }
+  }
+}

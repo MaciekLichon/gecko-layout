@@ -1,0 +1,29 @@
+
+// font family
+$ff-base: 'Mulish', sans-serif;
+
+// font size
+$fs-regular: 16px;
+$fs-accent-smaller: 0.875rem;
+$fs-accent-small: 0.75rem;
+$fs-accent-bigger: 1.125rem;
+$fs-accent-huge: 7.5rem;
+
+$fs-header-large: 5.313rem;
+$fs-header-big: 3rem;
+$fs-header-regular: 2.25rem;
+$fs-header-small: 1.5rem;
+
+// font weight
+$fw-heavy: 800;
+$fw-bold: 700;
+$fw-regular: 500;
+$fw-light: 400; 
+
+
+html {
+  font-family: $ff-base;
+  font-size: $fs-regular;
+  font-weight: $fw-regular;
+  color: $clr-light;
+}

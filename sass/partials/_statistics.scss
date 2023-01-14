@@ -1,0 +1,232 @@
+.statistics {
+  background-color: $clr-bg-dark;
+  background: linear-gradient(68.66deg, #13152B 0%, #151B50 50.02%, #1C2365 100%);
+  position: relative;
+  padding-top: 50px; // exception 
+  overflow: hidden;
+}
+
+.statistics::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-image: url('/images/statistics-bg.png');
+  mix-blend-mode: overlay;
+  background-position: 50%;
+  background-size: cover;
+}
+
+.statistics .container { 
+  position: relative;
+  z-index: 100; 
+}
+
+.statistics .statistics__content {
+  display: flex;
+  justify-content: space-between;
+  gap: 50px;
+  position: relative;
+  
+  .statistics__content-left {
+    flex: 1;
+    padding-top: 50px; // to compensate the reduction of section padding
+
+    .content-title { 
+      margin-bottom: 1rem; 
+      
+      span {
+        display: block;
+      }
+    }
+
+    .content-description { 
+      margin-bottom: 4rem; 
+      letter-spacing: -0.04rem;
+      padding-right: 130px;
+    }
+
+    .content-numbers {
+      display: flex;
+      justify-content: flex-start;
+      align-items: center;
+      gap: 5rem;
+
+      .content-numbers-item {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        gap: 12px;
+      }
+    }
+  }
+
+  .statistics__content-right {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+
+    .content-highlight {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+
+      .content-highlight-value {
+        font-size: $fs-accent-huge;
+        font-weight: $fw-heavy;
+        line-height: 150px;
+      }
+
+      .content-highlight-title {
+        font-size: $fs-accent-bigger;
+        font-weight: $fw-bold;
+        margin-bottom: 2rem;
+      }
+    }
+  }
+}
+
+.statistics__content::after {
+  position: absolute;
+  content: '';
+  width: 596px;
+  height: 1052px;
+  border: 35px solid $clr-accent;
+  border-radius: 260px 0;
+  right: 0;
+  bottom: 0;
+  z-index: -1;
+}
+
+
+
+@media (max-width: 1200px) {
+
+  .statistics__content::after {
+    position: absolute;
+    content: '';
+    width: 400px;
+    height: 1052px;
+    border: 35px solid $clr-accent;
+    border-radius: 150px 0;
+    right: 60px;
+    bottom: 50px;
+    z-index: -1;
+  }
+}
+
+@media (max-width: 1024px) {
+
+  .statistics__content::after {
+    position: absolute;
+    content: '';
+    width: 440px;
+    height: 1052px;
+    border: 35px solid $clr-accent;
+    border-radius: 150px 0;
+    right: 0;
+    bottom: 100px;
+    z-index: -1;
+  }
+}
+
+@media (max-width: 900px) {
+
+  .statistics {
+    .statistics__content::after {
+      display: none;
+    }
+  
+    .statistics__content {
+      gap: 30px;
+
+      .statistics__content-left {
+        .content-description {
+          padding-right: 60px;
+          margin-bottom: 2rem;
+        }
+        .content-numbers {
+          gap: 3rem;
+        }
+      }
+
+      .statistics__content-right {
+        justify-content: center;
+      }
+    }
+  }
+}
+
+@media (max-width: 700px) {
+
+  .statistics {
+    .statistics__content {
+      flex-direction: column;
+      gap: 20px;
+
+      .statistics__content-left {
+        text-align: center;
+
+        .content-title {
+          font-size: $fs-header-regular;
+
+          span {
+            display: inline;
+          }
+        }
+
+        .content-description {
+          padding-right: 0;
+        }
+
+        .content-numbers {
+          justify-content: center;
+          gap: 1rem;
+          
+          .content-numbers-item {
+            gap: 5px;
+            flex: 1;
+
+            .item-title {
+              text-align: center;
+              font-size: $fs-accent-smaller;
+            }
+          }
+          
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: 470px) {
+  .statistics {
+    .statistics__content {
+      .statistics__content-left {
+        .content-numbers {
+          gap: 1.5rem;
+          .content-numbers-item {
+            max-width: 80px;
+          }
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: 400px) {
+  .statistics {
+    .statistics__content {
+      .statistics__content-right {
+        .content-highlight {
+          .content-highlight-value {
+            font-size: 6rem;
+          }
+        }
+      }
+    }
+  }
+}

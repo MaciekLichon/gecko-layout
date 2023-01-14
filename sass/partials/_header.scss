@@ -1,0 +1,317 @@
+/* ---------- DROPDOWN NAVBAR ---------- (hamburger below) */
+.header {
+  position: absolute;
+  top: 0;
+  width: 100%;
+  height: 74px;
+  display: flex;
+  align-items: center;
+  font-weight: $fw-bold;
+  z-index: 200;
+
+  .container {
+    height: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  // hamburger button start - hidden when the standard navbar is available
+  .header__hamburger-button {
+    display: none;
+    background: none;
+    border: none;
+    color: $clr-light;
+    font-size: $fs-header-regular;
+    cursor: pointer;
+    z-index: 100;
+
+    .icon-close {
+      display: none;
+    }
+
+    &.open { // conditional display of icon - 'open' class toggled in JS
+      position: fixed;
+
+      .icon-close { display: block; }
+      .icon-open { display: none; }
+    }
+  }
+  // hanmburger button end
+  
+  .header__nav {
+    $header-items-gap: 40px;
+    $header-transition-duration: 0.2s;
+
+    display: flex;
+    gap: $header-items-gap;
+    height: 100%;
+    align-items: center;
+    
+    .header__nav-list {
+      list-style: none;
+      padding: 0;
+      display: flex;
+      gap: $header-items-gap;
+      height: 100%;
+      
+      .nav-item {
+        height: 100%;
+        position: relative;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 10px;
+
+        .nav-item-link {
+          color: $clr-faded-middle;
+          cursor: pointer;
+          transition: all $header-transition-duration;
+        }
+        
+        .nav-item-content {
+          position: absolute;
+          width: 518px; // absolutely position flexbox won't expand to fit content, thus the fixed width
+          background-color: $clr-light;
+          top: 100%;
+          display: flex;
+          padding: 40px;
+          border-radius: 20px;
+          color: $clr-dark;
+          flex-wrap: wrap;
+          opacity: 0;
+          visibility: hidden;
+          transition: all $header-transition-duration;
+          
+          .nav-item-content-elem {
+            width: 50%;
+            margin-bottom: 30px;
+            
+            .nav-item-content-elem-link {
+              display: flex;
+              gap: 14px;
+
+              svg {
+                transition: 0.2s;
+              }
+            }
+
+            .nav-item-content-elem-link:hover svg {
+              transform: rotate(360deg);
+            }
+          }
+
+          .nav-item-content-elem:last-child, .nav-item-content-elem:nth-last-child(2) {
+            margin-bottom: 0;
+          }
+        }
+      }
+
+      .nav-item.expandable::after {
+        content: '';
+        height: 8px;
+        width: 16px;
+        margin-top: 4px;
+        mask: url('../../images/angle_down.svg') no-repeat 50% 50%;
+        background-color: $clr-faded-middle;
+        transform: scaleY(1);
+        transition: all $header-transition-duration;
+      }
+
+      .nav-item:hover .nav-item-link { color: $clr-light; } // change text color
+      .nav-item:hover .nav-item-content { opacity: 1; visibility: visible; } // show dropdown
+      .nav-item.expandable:hover::after { background-color: $clr-light; transform: scaleY(-1); } // flip indicator
+    }
+  }
+}
+
+@media (max-width: 1150px) {
+  .header {
+    .header__nav {
+      gap: 15px;
+      .header__nav-list {
+        gap: 15px;
+      }
+    }
+  }
+}
+
+/* ---------- HAMBURGER MENU ---------- */
+
+@media (max-width: 1024px) {
+
+  // disabling regular header
+  .header {
+    .header__nav {
+      display: none;
+    }
+    .header__hamburger-button {
+      display: block;
+    }
+  }
+
+  // showing hamburger navbar when the 'hamburger' class is added only - JS
+  .header.hamburger {
+
+    .container {
+      justify-content: flex-end;
+
+      .header__logo {
+        display: none; // to make it invisble while changing flex positioning above 
+      }
+    }
+
+    @keyframes showMenu {
+      0% { transform: scaleX(0); }
+      100% { transform: scaleX(1); }
+    }
+    .header__nav {
+      display: block;
+      position: fixed;
+      top: 0;
+      left: 0;
+      min-height: 100vh;
+      width: 100vw;
+      background-color: $clr-bg-dark;
+      background: linear-gradient(68.66deg, #13152B 0%, #151B50 50.02%, #1C2365 100%);
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      padding: 100px;
+      font-size: $fs-header-regular;
+      transform-origin: right;
+      animation: showMenu 0.3s;
+      
+      
+      .header__nav-list {
+        flex-direction: column;
+        height: auto;
+        align-items: flex-start;
+        
+        .nav-item {
+          position: relative;
+          width: 250px;
+          justify-content: flex-start;
+          padding-left: 15px;
+
+          .nav-item-content {
+            flex-direction: column;
+            width: auto;
+            top: 20px;
+            left: 100%;
+            border-radius: 0 20px 20px 20px;
+            width: 280px; // change this value in .nav-item.expandable::before too, important!
+            transform-origin: top;
+            opacity: 1; 
+            visibility: visible; 
+            transform: scaleY(0);
+            transition-delay: 0;
+            transition: all 0.5s;
+            gap: 10px;
+
+            .nav-item-content-elem {
+              font-size: $fs-accent-bigger;
+              width: auto;
+              margin: 0;
+
+              svg {
+                display: none;
+              }
+            }
+          }
+          .nav-item-link {
+            z-index: 5;
+          }
+        }
+        .nav-item:hover .nav-item-link { color: $clr-light; }
+        
+        .nav-item.expandable::before {
+          position: absolute;
+          content: '';
+          left: 0;
+          top: 0;
+          background: $clr-light;
+          width: calc(100% + 280px); // 280px = width of dropdown list
+          height: 100%;
+          border-radius: 20px 20px 0 20px;
+          transform-origin: left;
+          transform: scaleX(0);
+          transition: all 0.5s;
+        }
+        .nav-item.expandable::before {
+          transition-delay: 0.5s;
+        }
+        
+        // playing around with transition-delay to get the effect of chronollogical folding of the menu
+
+        .nav-item.expandable:hover::before { transform: scaleX(1); transition-delay: 0s; }
+        .nav-item.expandable:hover .nav-item-link { color: $clr-dark; }
+        .nav-item:hover .nav-item-content { 
+          transform: scaleY(1); 
+          transition-delay: 0.5s; 
+        } // show dropdown
+
+        .nav-item.expandable::after { transform: rotate(-90deg) scale(1.5);}
+        .nav-item.expandable:hover::after { background-color: $clr-dark; transform: rotate(-90deg) scale(1.5); }
+      }
+    }
+  }
+}
+
+@media (max-width: 700px) {
+  .header.hamburger {
+    .header__nav {
+      padding-left: 50px;
+      padding-right: 50px;
+      font-size: $fs-header-small;
+
+      .header__nav-list {
+        .nav-item {
+          width: 170px;
+
+          .nav-item-content {
+            width: 200px; // change this value in .nav-item.expandable::before too, important!
+            padding: 15px;
+
+            .nav-item-content-elem {
+              font-size: $fs-regular;
+            }
+          }
+        }
+        .nav-item.expandable::before {
+          width: calc(100% + 200px); // 200px = width of dropdown list
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: 450px) {
+  .header.hamburger {
+    .header__nav {
+      padding-left: 15px;
+      padding-right: 15px;
+      font-size: $fs-accent-bigger;
+
+      .header__nav-list {
+        .nav-item {
+          width: 140px;
+
+          .nav-item-content {
+            top: 10px;
+            width: 150px; // change this value in .nav-item.expandable::before too, important!
+
+            .nav-item-content-elem {
+              font-size: $fs-accent-small;
+            }
+          }
+        }
+        .nav-item.expandable::before {
+          width: calc(100% + 150px); // 150px = width of dropdown list
+        }
+      }
+    }
+  }
+}
+
+
